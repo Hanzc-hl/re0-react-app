@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Menu } from "antd";
 import type { MenuProps } from "antd/lib/Menu";
 
@@ -8,16 +8,21 @@ import styles from "./Nav.less";
 const items: MenuProps["items"] = [
   {
     label: <Link to="/">Home</Link>,
-    key: "Home",
+    key: "/",
   },
   {
     label: <Link to="/blog">Blog</Link>,
-    key: "Blog",
+    key: "/blog",
   },
 ];
 
 const Nav: React.FC = () => {
   const [currentKey, setCurrentKey] = useState<string>("Home");
+  const location = useLocation();
+
+  useEffect(() => {
+    setCurrentKey(location.pathname);
+  }, [location]);
 
   const handleClick: MenuProps["onClick"] = (e) => {
     setCurrentKey(e.key);
